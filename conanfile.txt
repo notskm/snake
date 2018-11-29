@@ -1,5 +1,6 @@
 [requires]
 sfml/2.5.1@bincrafters/stable
+gsl_microsoft/2.0.0@bincrafters/stable
 
 [options]
 sfml:graphics=True

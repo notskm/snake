@@ -17,6 +17,7 @@ target_compile_features(snake PRIVATE cxx_std_17)
 target_link_libraries(snake
 	PRIVATE
 		CONAN_PKG::sfml
+		CONAN_PKG::gsl_microsoft
 )
 
 if(MSVC)
