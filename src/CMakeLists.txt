@@ -1,6 +1,17 @@
-add_executable(snake
+set(SOURCE_FILES
 	snake/main.cpp
 )
+
+if(MSVC)
+	add_executable(snake
+		WIN32
+		${SOURCE_FILES}
+	)
+else()
+	add_executable(snake
+		${SOURCE_FILES}
+	)
+endif()
 
 target_compile_features(snake PRIVATE cxx_std_17)
 target_link_libraries(snake
