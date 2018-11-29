@@ -7,8 +7,28 @@
 #include <SFML/Graphics.hpp>
 #include <cassert>
 #include <gsl/gsl>
+#include <random>
+#include <type_traits>
 
 constexpr float cell_size{8.f};
+
+template <typename T>
+[[nodiscard]] T random_number(T min, T max)
+{
+	static std::default_random_engine eng{std::random_device{}()};
+
+	if constexpr (std::is_floating_point_v<T>) {
+		std::uniform_real_distribution<T> dist(min, max);
+		return dist(eng);
+	}
+	else if constexpr (std::is_integral_v<T>) {
+		std::uniform_int_distribution<T> dist(min, max);
+		return dist(eng);
+	}
+	else {
+		static_assert(false, "T must be an integer or floating point number");
+	}
+}
 
 int main()
 {
