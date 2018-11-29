@@ -9,6 +9,7 @@
 int main()
 {
 	sf::RenderWindow window{{640, 480}, "Snake", sf::Style::Close};
+	window.setVerticalSyncEnabled(true);
 
 	while (window.isOpen()) {
 		sf::Event event;
