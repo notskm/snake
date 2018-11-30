@@ -44,6 +44,8 @@ template <typename T>
 	return random_cell_position(vec);
 }
 
+enum class direction { up, down, left, right };
+
 int main()
 {
 	sf::RenderWindow window{{640, 480}, "Snake", sf::Style::Close};
@@ -62,6 +64,8 @@ int main()
 	std::list<sf::RectangleShape> snake{};
 	snake.emplace_back(sf::Vector2f{cell_size_real, cell_size_real});
 	snake.back().setFillColor(sf::Color::Green);
+
+	direction snake_move_direction{direction::right};
 
 	sf::Clock clock;
 	sf::Time time_since_update{sf::Time::Zero};
@@ -89,9 +93,46 @@ int main()
 		if (time_since_update >= tick) {
 			time_since_update = sf::Time::Zero;
 
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				if (snake_move_direction != direction::down) {
+					snake_move_direction = direction::up;
+				}
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				if (snake_move_direction != direction::up) {
+					snake_move_direction = direction::down;
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+				if (snake_move_direction != direction::right) {
+					snake_move_direction = direction::left;
+				}
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				if (snake_move_direction != direction::left) {
+					snake_move_direction = direction::right;
+				}
+			}
+
 			snake.back().setPosition(snake.front().getPosition());
 			snake.splice(snake.begin(), snake, std::prev(snake.end()));
-			snake.front().move(cell_size_real, 0.f);
+
+			switch (snake_move_direction) {
+			case direction::up:
+				snake.front().move(0.f, -cell_size_real);
+				break;
+			case direction::down:
+				snake.front().move(0.f, cell_size_real);
+				break;
+			case direction::left:
+				snake.front().move(-cell_size_real, 0.f);
+				break;
+			case direction::right:
+				snake.front().move(cell_size_real, 0.f);
+				break;
+			default:
+				break;
+			}
 		}
 
 		window.clear();
