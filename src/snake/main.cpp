@@ -7,6 +7,7 @@
 #include <SFML/Graphics.hpp>
 #include <cassert>
 #include <gsl/gsl>
+#include <list>
 #include <random>
 #include <type_traits>
 
@@ -58,6 +59,10 @@ int main()
 
 	apple.setPosition(random_cell_position(window.getSize()));
 
+	std::list<sf::RectangleShape> snake{};
+	snake.emplace_back(sf::Vector2f{cell_size_real, cell_size_real});
+	snake.back().setFillColor(sf::Color::Green);
+
 	while (window.isOpen()) {
 		sf::Event event;
 		while (window.pollEvent(event)) {
@@ -77,6 +82,9 @@ int main()
 
 		window.clear();
 		window.draw(apple);
+		for (auto& i : snake) {
+			window.draw(i);
+		}
 		window.display();
 	}
 }
