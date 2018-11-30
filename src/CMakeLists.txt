@@ -35,3 +35,38 @@ add_custom_command(
 		${CMAKE_SOURCE_DIR}/fonts
 		$<TARGET_FILE_DIR:snake>/fonts
 )
+
+install(
+	TARGETS
+		snake
+	RUNTIME DESTINATION
+		.
+)
+
+install(
+	FILES
+		${CMAKE_SOURCE_DIR}/fonts/PressStart2P/PressStart2P-Regular.ttf
+	DESTINATION
+		fonts/PressStart2P
+)
+
+install(
+	FILES
+		${CMAKE_SOURCE_DIR}/fonts/PressStart2P/OFL.txt
+	DESTINATION
+		licenses/PressStart2P
+)
+
+install(
+	DIRECTORY
+		${CMAKE_BINARY_DIR}/licenses
+	DESTINATION
+		.
+)
+
+install(
+	FILES
+		${CMAKE_SOURCE_DIR}/LICENSE
+	DESTINATION
+		licenses/snake
+)
