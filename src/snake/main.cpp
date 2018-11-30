@@ -80,6 +80,10 @@ int main()
 			}
 		}
 
+		snake.back().setPosition(snake.front().getPosition());
+		snake.splice(snake.begin(), snake, std::prev(snake.end()));
+		snake.front().move(cell_size_real, 0.f);
+
 		window.clear();
 		window.draw(apple);
 		for (auto& i : snake) {
