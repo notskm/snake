@@ -72,8 +72,9 @@ void reset(
 bool check_gameover(std::list<sf::RectangleShape>& snake, sf::Vector2u bounds)
 {
 	auto head_pos{snake.front().getPosition()};
-	if (head_pos.x < 0.f || head_pos.y < 0.f || head_pos.x > bounds.x ||
-		head_pos.y > bounds.y) {
+	if (head_pos.x < 0.f || head_pos.y < 0.f ||
+		head_pos.x > bounds.x - cell_size_int ||
+		head_pos.y > bounds.y - cell_size_int) {
 		return true;
 	}
 
