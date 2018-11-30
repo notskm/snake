@@ -31,6 +31,18 @@ template <typename T>
 	}
 }
 
+[[nodiscard]] sf::Vector2f random_cell_position(sf::Vector2i bounds)
+{
+	return {random_number(0, bounds.x / cell_size_int - 1) * cell_size_real,
+			random_number(0, bounds.y / cell_size_int - 1) * cell_size_real};
+}
+
+[[nodiscard]] sf::Vector2f random_cell_position(sf::Vector2u bounds)
+{
+	sf::Vector2i vec{gsl::narrow<int>(bounds.x), gsl::narrow<int>(bounds.y)};
+	return random_cell_position(vec);
+}
+
 int main()
 {
 	sf::RenderWindow window{{640, 480}, "Snake", sf::Style::Close};
@@ -43,6 +55,8 @@ int main()
 
 	sf::RectangleShape apple{{cell_size_real, cell_size_real}};
 	apple.setFillColor(sf::Color::Red);
+
+	apple.setPosition(random_cell_position(window.getSize()));
 
 	while (window.isOpen()) {
 		sf::Event event;
