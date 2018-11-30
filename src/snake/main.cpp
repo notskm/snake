@@ -108,7 +108,7 @@ int main()
 					snake_move_direction = direction::down;
 				}
 			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 				if (snake_move_direction != direction::right) {
 					snake_move_direction = direction::left;
 				}
