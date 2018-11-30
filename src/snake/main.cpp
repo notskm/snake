@@ -58,15 +58,19 @@ void append_snake_unit(std::list<sf::RectangleShape>& snake)
 
 void reset(
 	sf::RectangleShape& apple, std::list<sf::RectangleShape>& snake,
-	direction& snake_move_direction, unsigned& score, sf::Vector2u bounds)
+	direction& snake_move_direction, unsigned& score, sf::Text& score_text,
+	sf::Vector2u bounds)
 {
 	apple.setPosition(random_cell_position(bounds));
+
 	snake.clear();
 	append_snake_unit(snake);
 	snake.front().setPosition(
 		bounds.x / 2.f, bounds.y / 2.f + cell_size_real * 5.f);
 	snake_move_direction = direction::left;
+
 	score = 0;
+	score_text.setString("Score: " + std::to_string(score));
 }
 
 bool check_gameover(std::list<sf::RectangleShape>& snake, sf::Vector2u bounds)
@@ -112,7 +116,7 @@ int main()
 	font.loadFromFile("fonts/PressStart2P/PressStart2P-Regular.ttf");
 
 	unsigned score{0};
-	sf::Text score_text{"Score: " + std::to_string(score), font};
+	sf::Text score_text{"", font};
 	score_text.setCharacterSize(12);
 
 	sf::Text press_any_key_text{"Press any key to begin", font};
@@ -125,7 +129,9 @@ int main()
 
 	bool game_running{false};
 
-	reset(apple, snake, snake_move_direction, score, window.getSize());
+	reset(
+		apple, snake, snake_move_direction, score, score_text,
+		window.getSize());
 
 	while (window.isOpen()) {
 		sf::Event event;
@@ -143,7 +149,7 @@ int main()
 						game_running = true;
 						reset(
 							apple, snake, snake_move_direction, score,
-							window.getSize());
+							score_text, window.getSize());
 					}
 				}
 				break;
