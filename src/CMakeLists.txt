@@ -66,7 +66,7 @@ install(
 
 install(
 	FILES
-		${CMAKE_SOURCE_DIR}/LICENSE
+		${CMAKE_SOURCE_DIR}/LICENSE.md
 	DESTINATION
 		licenses/snake
 )
