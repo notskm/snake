@@ -63,6 +63,10 @@ int main()
 	snake.emplace_back(sf::Vector2f{cell_size_real, cell_size_real});
 	snake.back().setFillColor(sf::Color::Green);
 
+	sf::Clock clock;
+	sf::Time time_since_update{sf::Time::Zero};
+	const sf::Time tick{sf::seconds(1.f / 10.f)};
+
 	while (window.isOpen()) {
 		sf::Event event;
 		while (window.pollEvent(event)) {
@@ -80,9 +84,15 @@ int main()
 			}
 		}
 
-		snake.back().setPosition(snake.front().getPosition());
-		snake.splice(snake.begin(), snake, std::prev(snake.end()));
-		snake.front().move(cell_size_real, 0.f);
+		time_since_update += clock.restart();
+
+		if (time_since_update >= tick) {
+			time_since_update = sf::Time::Zero;
+
+			snake.back().setPosition(snake.front().getPosition());
+			snake.splice(snake.begin(), snake, std::prev(snake.end()));
+			snake.front().move(cell_size_real, 0.f);
+		}
 
 		window.clear();
 		window.draw(apple);
