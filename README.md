@@ -36,6 +36,7 @@ cmake --build . --config Release --target install
 
 ### Other Generators (make):
 ```
+mkdir build
 mkdir build/release
 cd ./build/release
 ```
