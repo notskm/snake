@@ -52,6 +52,19 @@ void append_snake_unit(std::list<sf::RectangleShape>& snake)
 	snake.back().setFillColor(sf::Color::Green);
 }
 
+void reset(
+	sf::RectangleShape& apple, std::list<sf::RectangleShape>& snake,
+	direction& snake_move_direction, unsigned& score, sf::Vector2u bounds)
+{
+	apple.setPosition(random_cell_position(bounds));
+	snake.clear();
+	append_snake_unit(snake);
+	snake.front().setPosition(
+		bounds.x / 2.f, bounds.y / 2.f + cell_size_real * 5.f);
+	snake_move_direction = direction::left;
+	score = 0;
+}
+
 int main()
 {
 	sf::RenderWindow window{{640, 480}, "Snake", sf::Style::Close};
@@ -65,12 +78,9 @@ int main()
 	sf::RectangleShape apple{{cell_size_real, cell_size_real}};
 	apple.setFillColor(sf::Color::Red);
 
-	apple.setPosition(random_cell_position(window.getSize()));
-
 	std::list<sf::RectangleShape> snake{};
-	append_snake_unit(snake);
 
-	direction snake_move_direction{direction::right};
+	direction snake_move_direction;
 
 	sf::Font font;
 	font.loadFromFile("fonts/PressStart2P/PressStart2P-Regular.ttf");
@@ -89,6 +99,8 @@ int main()
 
 	bool game_running{false};
 
+	reset(apple, snake, snake_move_direction, score, window.getSize());
+
 	while (window.isOpen()) {
 		sf::Event event;
 		while (window.pollEvent(event)) {
@@ -101,7 +113,12 @@ int main()
 					window.close();
 				}
 				else {
-					game_running = true;
+					if (!game_running) {
+						game_running = true;
+						reset(
+							apple, snake, snake_move_direction, score,
+							window.getSize());
+					}
 				}
 				break;
 			default:
