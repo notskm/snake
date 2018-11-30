@@ -10,7 +10,8 @@
 #include <random>
 #include <type_traits>
 
-constexpr float cell_size{8.f};
+constexpr int cell_size_int{8};
+constexpr float cell_size_real{cell_size_int};
 
 template <typename T>
 [[nodiscard]] T random_number(T min, T max)
@@ -35,10 +36,12 @@ int main()
 	sf::RenderWindow window{{640, 480}, "Snake", sf::Style::Close};
 	window.setVerticalSyncEnabled(true);
 
-	assert(window.getSize().x % gsl::narrow<int>(cell_size) == 0);
-	assert(window.getSize().y % gsl::narrow<int>(cell_size) == 0);
+	assert(cell_size_int > 0);
+	assert(cell_size_int == cell_size_real);
+	assert(window.getSize().x % cell_size_int == 0);
+	assert(window.getSize().y % cell_size_int == 0);
 
-	sf::RectangleShape apple{{cell_size, cell_size}};
+	sf::RectangleShape apple{{cell_size_real, cell_size_real}};
 	apple.setFillColor(sf::Color::Red);
 
 	while (window.isOpen()) {
