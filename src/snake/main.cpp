@@ -51,6 +51,9 @@ void append_snake_unit(std::list<sf::RectangleShape>& snake)
 {
 	snake.emplace_back(sf::Vector2f{cell_size_real, cell_size_real});
 	snake.back().setFillColor(sf::Color::Green);
+	if (snake.size() > 1) {
+		snake.back().setPosition(std::prev(snake.end(), 2)->getPosition());
+	}
 }
 
 void reset(
@@ -192,7 +195,6 @@ int main()
 
 			if (snake.front().getPosition() == apple.getPosition()) {
 				append_snake_unit(snake);
-				snake.back().setPosition(snake.front().getPosition());
 				apple.setPosition(random_cell_position(window.getSize()));
 				score += 10;
 				score_text.setString("Score: " + std::to_string(score));
