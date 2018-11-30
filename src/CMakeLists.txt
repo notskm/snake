@@ -25,3 +25,13 @@ if(MSVC)
 else()
 	target_compile_options(snake PRIVATE -Wall -Wextra -pedantic -Werror)
 endif()
+
+add_custom_command(
+	TARGET
+		snake
+	POST_BUILD
+	COMMAND
+		${CMAKE_COMMAND} -E copy_directory
+		${CMAKE_SOURCE_DIR}/fonts
+		$<TARGET_FILE_DIR:snake>/fonts
+)

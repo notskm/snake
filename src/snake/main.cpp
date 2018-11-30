@@ -72,6 +72,13 @@ int main()
 
 	direction snake_move_direction{direction::right};
 
+	sf::Font font;
+	font.loadFromFile("fonts/PressStart2P/PressStart2P-Regular.ttf");
+
+	unsigned score{0};
+	sf::Text score_text{"Score: " + std::to_string(score), font};
+	score_text.setCharacterSize(12);
+
 	while (window.isOpen()) {
 		sf::Event event;
 		while (window.pollEvent(event)) {
@@ -134,6 +141,8 @@ int main()
 			append_snake_unit(snake);
 			snake.back().setPosition(snake.front().getPosition());
 			apple.setPosition(random_cell_position(window.getSize()));
+			score += 10;
+			score_text.setString("Score: " + std::to_string(score));
 		}
 
 		window.clear();
@@ -141,6 +150,7 @@ int main()
 		for (auto& i : snake) {
 			window.draw(i);
 		}
+		window.draw(score_text);
 		window.display();
 	}
 }
