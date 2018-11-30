@@ -20,6 +20,10 @@ enum class direction { up, down, left, right };
 template <typename T>
 [[nodiscard]] T random_number(T min, T max)
 {
+	static_assert(
+		std::is_floating_point_v<T> || std::is_integral_v<T>,
+		"T must be an integer or floating point number.");
+
 	static std::default_random_engine eng{std::random_device{}()};
 
 	if constexpr (std::is_floating_point_v<T>) {
@@ -29,9 +33,6 @@ template <typename T>
 	else if constexpr (std::is_integral_v<T>) {
 		std::uniform_int_distribution<T> dist(min, max);
 		return dist(eng);
-	}
-	else {
-		static_assert(false, "T must be an integer or floating point number");
 	}
 }
 
