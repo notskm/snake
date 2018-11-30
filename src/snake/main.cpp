@@ -74,7 +74,7 @@ int main()
 
 	sf::Clock clock;
 	sf::Time time_since_update{sf::Time::Zero};
-	const sf::Time tick{sf::seconds(1.f / 10.f)};
+	const sf::Time tick{sf::seconds(1.f / 15.f)};
 
 	while (window.isOpen()) {
 		sf::Event event;
