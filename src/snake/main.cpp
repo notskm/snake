@@ -5,6 +5,7 @@
 */
 
 #include <SFML/Graphics.hpp>
+#include <algorithm>
 #include <cassert>
 #include <gsl/gsl>
 #include <list>
@@ -63,6 +64,27 @@ void reset(
 		bounds.x / 2.f, bounds.y / 2.f + cell_size_real * 5.f);
 	snake_move_direction = direction::left;
 	score = 0;
+}
+
+bool check_gameover(std::list<sf::RectangleShape>& snake, sf::Vector2u bounds)
+{
+	auto head_pos{snake.front().getPosition()};
+	if (head_pos.x < 0.f || head_pos.y < 0.f || head_pos.x > bounds.x ||
+		head_pos.y > bounds.y) {
+		return true;
+	}
+
+	// The snake can't collide with itself unless it has at least 5 cells
+	if (snake.size() > 4) {
+		// std::next skips the cells that the head cannot collide with
+		return std::any_of(
+			std::next(snake.begin(), 3), snake.end(),
+			[&head_pos](sf::RectangleShape& cell) {
+				return cell.getPosition() == head_pos;
+			});
+	}
+
+	return false;
 }
 
 int main()
@@ -175,6 +197,8 @@ int main()
 				score += 10;
 				score_text.setString("Score: " + std::to_string(score));
 			}
+
+			game_running = !check_gameover(snake, window.getSize());
 		}
 
 		window.clear();
