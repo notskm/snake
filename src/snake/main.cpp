@@ -14,6 +14,8 @@
 constexpr int cell_size_int{8};
 constexpr float cell_size_real{cell_size_int};
 
+enum class direction { up, down, left, right };
+
 template <typename T>
 [[nodiscard]] T random_number(T min, T max)
 {
@@ -44,7 +46,11 @@ template <typename T>
 	return random_cell_position(vec);
 }
 
-enum class direction { up, down, left, right };
+void append_snake_unit(std::list<sf::RectangleShape>& snake)
+{
+	snake.emplace_back(sf::Vector2f{cell_size_real, cell_size_real});
+	snake.back().setFillColor(sf::Color::Green);
+}
 
 int main()
 {
@@ -62,8 +68,7 @@ int main()
 	apple.setPosition(random_cell_position(window.getSize()));
 
 	std::list<sf::RectangleShape> snake{};
-	snake.emplace_back(sf::Vector2f{cell_size_real, cell_size_real});
-	snake.back().setFillColor(sf::Color::Green);
+	append_snake_unit(snake);
 
 	direction snake_move_direction{direction::right};
 
@@ -132,6 +137,12 @@ int main()
 				break;
 			default:
 				break;
+			}
+
+			if (snake.front().getPosition() == apple.getPosition()) {
+				append_snake_unit(snake);
+				snake.back().setPosition(snake.front().getPosition());
+				apple.setPosition(random_cell_position(window.getSize()));
 			}
 		}
 
