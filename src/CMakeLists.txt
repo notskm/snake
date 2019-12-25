@@ -22,9 +22,9 @@ target_link_libraries(snake
 )
 
 if(MSVC)
-	target_compile_options(snake PRIVATE /W4 /WX /permissive-)
+	target_compile_options(snake PRIVATE /W4 /permissive-)
 else()
-	target_compile_options(snake PRIVATE -Wall -Wextra -pedantic -Werror)
+	target_compile_options(snake PRIVATE -Wall -Wextra -pedantic)
 endif()
 
 add_custom_command(
