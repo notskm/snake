@@ -2,7 +2,13 @@ cmake_minimum_required(VERSION 3.11)
 
 project(snake)
 
-include("${CMAKE_SOURCE_DIR}/cmake/conan.cmake")
+if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+   message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+   file(DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/develop/conan.cmake"
+                "${CMAKE_BINARY_DIR}/conan.cmake")
+endif()
+
+include(${CMAKE_BINARY_DIR}/conan.cmake)
 
 conan_check()
 conan_add_remote(
