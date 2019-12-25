@@ -1,10 +1,12 @@
 #include <SFML/Graphics.hpp>
 #include <algorithm>
 #include <cassert>
+#include <filesystem>
 #include <gsl/gsl>
 #include <list>
 #include <random>
 #include <type_traits>
+#include <whereami.h>
 
 constexpr int cell_size_int{8};
 constexpr float cell_size_real{cell_size_int};
@@ -90,6 +92,16 @@ bool check_gameover(std::list<sf::RectangleShape>& snake, sf::Vector2u bounds)
 	return false;
 }
 
+[[nodiscard]] std::filesystem::path executable_location()
+{
+	int length = wai_getExecutablePath(nullptr, 0, nullptr);
+	std::string path_string(length, '\0');
+	wai_getExecutablePath(path_string.data(), length, nullptr);
+
+	std::filesystem::path path{path_string};
+	return path.remove_filename();
+}
+
 int main()
 {
 	sf::RenderWindow window{{640, 480}, "Snake", sf::Style::Close};
@@ -108,7 +120,9 @@ int main()
 	direction snake_move_direction;
 
 	sf::Font font;
-	font.loadFromFile("fonts/PressStart2P/PressStart2P-Regular.ttf");
+	auto font_file = executable_location() / "fonts" / "PressStart2P" /
+					 "PressStart2P-Regular.ttf";
+	font.loadFromFile(font_file.string());
 
 	unsigned score{0};
 	sf::Text score_text{"", font};
