@@ -1,6 +1,6 @@
 BSD 3-Clause License
 
-Copyright (c) 2018, [Notskm](https://github.com/notskm)
+Copyright (c) 2018-2019 [Notskm](https://github.com/notskm)
 
 All rights reserved.
 
