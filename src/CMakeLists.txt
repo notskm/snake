@@ -18,6 +18,7 @@ target_link_libraries(snake
 	PRIVATE
 		CONAN_PKG::sfml
 		CONAN_PKG::gsl_microsoft
+		CONAN_PKG::whereami
 )
 
 if(MSVC)
